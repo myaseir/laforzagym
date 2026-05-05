@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
-import { Montserrat, Cormorant_Garamond } from "next/font/google";
+import { Montserrat, Teko } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
-const cormorant = Cormorant_Garamond({ 
+const montserrat = Montserrat({ 
   subsets: ["latin"], 
-  variable: "--font-cormorant",
+  variable: "--font-montserrat" 
+});
+
+const teko = Teko({ 
+  subsets: ["latin"], 
+  variable: "--font-teko",
   weight: ['300', '400', '500', '600', '700'] 
 });
 
 export const metadata: Metadata = {
-  title: "NUMRA | Luxury Makeup Studio & Salon Lahore",
-  description: "Exclusive bridal makeup and beauty sanctuary in Lahore. Elevating natural beauty with precision and panache.",
+  title: "LA FORZA | Elite Fitness & Tactical Strength Rawalpindi",
+  description: "The ultimate sanctuary for high-performance training in Rawalpindi. Forge your legacy with state-of-the-art equipment and elite coaching.",
 };
 
 export default function RootLayout({
@@ -23,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${montserrat.variable} ${cormorant.variable} font-sans bg-white text-zinc-900 antialiased flex flex-col min-h-screen`}>
+      <body className={`${montserrat.variable} ${teko.variable} font-sans bg-[#050505] text-white antialiased flex flex-col min-h-screen`}>
         <Navbar />
         <main className="flex-grow">
           {children}

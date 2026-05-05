@@ -1,134 +1,334 @@
+"use client";
+
+import React from "react";
+import Navbar from "./components/Navbar"; // Adjust paths based on your folder structure
 import Hero from "./components/Hero";
-import Link from "next/link";
+import Footer from "./components/Footer";
 
-export default function Home() {
+// ─── Data ────────────────────────────────────────────────────────────────────
+const STATS = [
+  { label: "Elite Members", value: "1.2k+" },
+  { label: "Expert Coaches", value: "24" },
+  { label: "Modern Equipment", value: "150+" },
+  { label: "Success Stories", value: "98%" },
+];
+
+const PROGRAMS = [
+  {
+    title: "Strength & Iron",
+    desc: "The foundation of power. Heavy lifting protocols designed for maximum hypertrophy and raw strength.",
+    icon: "🏋️‍♂️",
+  },
+  {
+    title: "Tactical Cardio",
+    desc: "High-intensity metabolic conditioning that shreds fat while preserving every ounce of muscle.",
+    icon: "🔥",
+  },
+  {
+    title: "Elite Coaching",
+    desc: "One-on-one programming with professional athletes to bypass plateaus and hit PRs faster.",
+    icon: "🎯",
+  },
+];
+
+export default function MainPage() {
   return (
-    <main className="min-h-screen bg-white">
-      <Hero />
+    <main style={{ backgroundColor: "#050505", color: "#ffffff" }}>
+      <Navbar />
       
-      {/* 1. Philosophy Section: The "Numra" Statement */}
-      <section className="py-24 md:py-40 px-6 max-w-5xl mx-auto">
-        <div className="flex flex-col items-center text-center">
-          <div className="w-px h-16 bg-rose-900/30 mb-10"></div>
-          <h4 className="text-rose-900 text-[10px] md:text-xs tracking-[0.5em] font-bold uppercase mb-8">
-            The Philosophy
-          </h4>
-          <h2 className="text-4xl md:text-7xl font-serif text-zinc-900 mb-10 italic tracking-tighter leading-tight">
-            Defined by Panache. <br/> 
-            Refined by Artistry.
-          </h2>
-          <p className="text-zinc-500 text-lg md:text-xl font-light leading-relaxed max-w-3xl mx-auto italic">
-            "We focus on enhancing the most unique features of your face, creating perfect harmony between colour and tone. 
-            Our definitive finishing will give you the individuality you desire and let you stand out from the crowd."
-          </p>
+      {/* ── Hero Section ── */}
+      <Hero />
+
+      {/* ── Stats Bar ── */}
+      <section className="stats-bar">
+        <div className="container">
+          <div className="stats-grid">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="stat-item">
+                <span className="stat-value">{stat.value}</span>
+                <span className="stat-label">{stat.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 2. Services: Editorial Alternating Layout */}
-      <section className="pb-32 px-6 md:px-12 max-w-7xl mx-auto space-y-32 md:space-y-48">
-        
-        {/* Category 01: Makeup */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
-          <div className="order-2 md:order-1 flex flex-col items-start">
-            <span className="text-zinc-300 text-5xl md:text-7xl font-serif mb-6 opacity-50">01</span>
-            <h3 className="text-3xl md:text-5xl font-serif mb-6 italic text-zinc-900">The Makeup Suite</h3>
-            <p className="text-zinc-500 font-light leading-loose mb-8 text-base md:text-lg">
-              Bridal, party, editorial, and private lessons tailored to your specific occasion. Fulfilling your beauty needs with great panache.
-            </p>
-            <ul className="grid grid-cols-1 gap-4 text-[11px] tracking-[0.3em] uppercase text-rose-900 font-semibold mb-10">
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Bridal Masterclass
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Editorial & Headshots
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Private Makeovers
-              </li>
-            </ul>
-            <Link href="/bridal" className="text-zinc-900 text-[10px] tracking-[0.4em] uppercase font-bold border-b border-zinc-900 pb-1 hover:text-rose-800 hover:border-rose-800 transition-all">
-              View Portfolio
-            </Link>
-          </div>
-          <div className="order-1 md:order-2 aspect-[4/5] overflow-hidden bg-zinc-100 shadow-2xl group">
-            <img 
-              src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200" 
-              alt="Makeup Artistry" 
-              className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105" 
-            />
+      {/* ── About / Philosophy ── */}
+      <section className="section about-section" id="about">
+        <div className="container">
+          <div className="grid-2">
+            <div className="reveal">
+              <span className="badge">Our Philosophy</span>
+              <h2 className="title">WE DON'T DO <br/><span className="text-red">MEDIOCRE</span></h2>
+              <p className="description">
+                La Forza isn't just a gym; it's a forge. We provide the tools, the atmosphere, 
+                and the elite-level expertise. You provide the grit. Our facility is designed 
+                to eliminate distractions and focus on one thing: **Results.**
+              </p>
+              <div className="accent-line"></div>
+            </div>
+            <div className="visual-box reveal delay-1">
+               {/* This represents a placeholder for a high-quality gym image */}
+               <div className="image-placeholder">
+                  <div className="inner-glow"></div>
+                  <span className="floating-text">EST. 2018</span>
+               </div>
+            </div>
           </div>
         </div>
-
-        {/* Category 02: Hair */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
-          <div className="aspect-[4/5] overflow-hidden bg-zinc-100 shadow-2xl group">
-            <img 
-              src="https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200" 
-              alt="Hair Artistry" 
-              className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105" 
-            />
-          </div>
-          <div className="flex flex-col items-start">
-            <span className="text-zinc-300 text-5xl md:text-7xl font-serif mb-6 opacity-50">02</span>
-            <h3 className="text-3xl md:text-5xl font-serif mb-6 italic text-zinc-900">Hair Artistry</h3>
-            <p className="text-zinc-500 font-light leading-loose mb-8 text-base md:text-lg">
-              From precision cuts to bespoke colour and styling treatments. We create perfect harmony between your style and our definitive finish.
-            </p>
-            <ul className="grid grid-cols-1 gap-4 text-[11px] tracking-[0.3em] uppercase text-rose-900 font-semibold mb-10">
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Couture Styling
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Technical Colour
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Luxury Treatments
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Category 03: Skin */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
-          <div className="order-2 md:order-1 flex flex-col items-start">
-            <span className="text-zinc-300 text-5xl md:text-7xl font-serif mb-6 opacity-50">03</span>
-            <h3 className="text-3xl md:text-5xl font-serif mb-6 italic text-zinc-900">Skin & Essentials</h3>
-            <p className="text-zinc-500 font-light leading-loose mb-8 text-base md:text-lg">
-              Rejuvenating facials and grooming performed with meticulous attention to detail, ensuring your natural beauty shines through.
-            </p>
-            <ul className="grid grid-cols-1 gap-4 text-[11px] tracking-[0.3em] uppercase text-rose-900 font-semibold mb-10">
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Signature Facials
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Luxury Manicure
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-1.5 h-[1px] bg-rose-900"></span> Precision Waxing
-              </li>
-            </ul>
-          </div>
-          <div className="order-1 md:order-2 aspect-[4/5] overflow-hidden bg-zinc-100 shadow-2xl group">
-            <img 
-              src="https://images.unsplash.com/photo-1698681296890-a772cdec87f8?q=80&w=386&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-              alt="Skin Care" 
-              className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105" 
-            />
-          </div>
-        </div>
-
       </section>
 
-      {/* 3. Global CTA */}
-      <section className="bg-zinc-50 py-32 px-6 text-center border-t border-zinc-100">
-        <h2 className="text-3xl md:text-5xl font-serif text-zinc-900 mb-10 italic">Begin Your Transformation</h2>
-        <Link 
-          href="/contact"
-          className="inline-block px-14 py-5 bg-zinc-900 text-white text-[11px] tracking-[0.4em] uppercase font-bold hover:bg-rose-900 transition-all duration-500 shadow-2xl"
-        >
-          Book An Appointment
-        </Link>
+      {/* ── Services / Programs ── */}
+      <section className="section services-section" id="services">
+        <div className="container text-center">
+          <span className="badge">Dominate Your Goals</span>
+          <h2 className="title">ELITE <span className="text-red">PROGRAMS</span></h2>
+          
+          <div className="services-grid">
+            {PROGRAMS.map((prog, i) => (
+              <div key={prog.title} className={`service-card reveal delay-${i}`}>
+                <div className="card-icon">{prog.icon}</div>
+                <h3>{prog.title}</h3>
+                <p>{prog.desc}</p>
+                <div className="card-footer">
+                   <a href="/join" className="card-link">View Program</a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
+
+      {/* ── Final Call to Action ── */}
+      <section className="cta-section">
+        <div className="cta-box reveal">
+          <h2>READY TO JOIN THE <span className="text-red">1%?</span></h2>
+          <p>Your first session is on us. Experience the atmosphere that creates champions.</p>
+          <a href="/contact" className="btn-main">Get Started Now</a>
+        </div>
+      </section>
+
+      
+
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Montserrat:wght@300;400;700;900&display=swap');
+
+        .container {
+          max-width: 1300px;
+          margin: 0 auto;
+          padding: 0 2rem;
+        }
+
+        .text-center { text-align: center; }
+        .text-red { color: #ff1e1e; }
+
+        .section {
+          padding: 10rem 0;
+          position: relative;
+        }
+
+        .badge {
+          display: inline-block;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          color: #ff1e1e;
+          margin-bottom: 1rem;
+        }
+
+        .title {
+          font-family: 'Teko', sans-serif;
+          font-size: clamp(3rem, 6vw, 5rem);
+          line-height: 0.9;
+          margin-bottom: 2rem;
+          text-transform: uppercase;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+          background: #0a0a0a;
+          padding: 4rem 0;
+          border-top: 1px solid rgba(255, 30, 30, 0.1);
+          border-bottom: 1px solid rgba(255, 30, 30, 0.1);
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 2rem;
+          text-align: center;
+        }
+
+        .stat-value {
+          display: block;
+          font-family: 'Teko', sans-serif;
+          font-size: 4rem;
+          color: #ffffff;
+          line-height: 1;
+        }
+
+        .stat-label {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.75rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #666;
+        }
+
+        /* Grid Layout */
+        .grid-2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 6rem;
+          align-items: center;
+        }
+
+        .description {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 1.1rem;
+          line-height: 1.8;
+          color: #aaa;
+          margin-bottom: 2rem;
+        }
+
+        .accent-line {
+          width: 60px;
+          height: 4px;
+          background: #ff1e1e;
+        }
+
+        /* Visual Box Placeholder */
+        .image-placeholder {
+          width: 100%;
+          height: 500px;
+          background: #111;
+          position: relative;
+          clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+          border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .inner-glow {
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(circle at bottom right, rgba(255, 30, 30, 0.1) 0%, transparent 70%);
+        }
+
+        .floating-text {
+          position: absolute;
+          bottom: 2rem;
+          left: 2rem;
+          font-family: 'Teko', sans-serif;
+          font-size: 4rem;
+          color: rgba(255,255,255,0.05);
+        }
+
+        /* Services Cards */
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-top: 5rem;
+        }
+
+        .service-card {
+          background: #0a0a0a;
+          padding: 4rem 3rem;
+          text-align: left;
+          border: 1px solid rgba(255,255,255,0.03);
+          transition: all 0.4s ease;
+          position: relative;
+        }
+
+        .service-card:hover {
+          background: #111;
+          border-color: #ff1e1e;
+          transform: translateY(-10px);
+        }
+
+        .card-icon {
+          font-size: 2.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .service-card h3 {
+          font-family: 'Teko', sans-serif;
+          font-size: 2rem;
+          text-transform: uppercase;
+          margin-bottom: 1rem;
+        }
+
+        .service-card p {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.95rem;
+          color: #888;
+          line-height: 1.6;
+        }
+
+        .card-footer {
+          margin-top: 3rem;
+        }
+
+        .card-link {
+          color: #ff1e1e;
+          text-decoration: none;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          font-size: 0.75rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+        }
+
+        /* CTA Section */
+        .cta-section {
+          padding: 10rem 2rem;
+          background: linear-gradient(rgba(5,5,5,0.8), rgba(5,5,5,0.8)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop');
+          background-size: cover;
+          background-attachment: fixed;
+          text-align: center;
+        }
+
+        .cta-box h2 {
+          font-family: 'Teko', sans-serif;
+          font-size: 5rem;
+          margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+          font-family: 'Montserrat', sans-serif;
+          margin-bottom: 3rem;
+          color: #ccc;
+        }
+
+        .btn-main {
+          display: inline-block;
+          padding: 1.2rem 4rem;
+          background: #ff1e1e;
+          color: #000;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 900;
+          text-transform: uppercase;
+          text-decoration: none;
+          letter-spacing: 0.2em;
+          clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+          transition: all 0.3s ease;
+        }
+
+        .btn-main:hover {
+          background: #fff;
+          transform: scale(1.05);
+        }
+
+        /* Simple Reveal Logic */
+        .reveal { opacity: 1; transform: none; } /* Add your observer logic or Framer Motion here */
+
+        @media (max-width: 900px) {
+          .grid-2 { grid-template-columns: 1fr; gap: 4rem; }
+          .image-placeholder { height: 350px; }
+          .cta-box h2 { font-size: 3.5rem; }
+        }
+      `}</style>
     </main>
   );
 }

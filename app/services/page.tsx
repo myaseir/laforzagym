@@ -1,143 +1,317 @@
-import React from 'react';
+"use client";
 
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
+// ─── Data ────────────────────────────────────────────────────────────────────
+const ELITE_SERVICES = [
+  {
+    id: "01",
+    title: "Hypertrophy Lab",
+    desc: "Science-based muscle growth protocols. We use data-driven tracking and periodization to ensure you bypass every plateau.",
+    features: ["Bi-weekly Body Scans", "Custom Nutrition", "Form Analysis"],
+    price: "PKR 15,000/mo"
+  },
+  {
+    id: "02",
+    title: "Tactical Conditioning",
+    desc: "Built for those who need to move as well as they lift. High-intensity sessions designed for speed, agility, and endurance.",
+    features: ["VO2 Max Testing", "Functional Strength", "Agility Drills"],
+    price: "PKR 12,500/mo"
+  },
+  {
+    id: "03",
+    title: "Olympic Forge",
+    desc: "Master the Snatch and Clean & Jerk. Our certified coaches focus on explosive power and technical perfection.",
+    features: ["Platform Priority", "Video Review", "Mobility Work"],
+    price: "PKR 20,000/mo"
+  },
+  {
+    id: "04",
+    title: "The Recovery Suite",
+    desc: "Recovery is where the growth happens. Access our cryotherapy, infrared saunas, and targeted compression gear.",
+    features: ["Cryo Access", "Massage Therapy", "Stretch Zone"],
+    price: "PKR 8,500/mo"
+  }
+];
+
+// ─── Three.js Realistic Silhouette Bodybuilder ───────────────────────────────
+function RealisticBodybuilder() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const scrollRef = useRef(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x050505, 0.06);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2, 10);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // ── High-Contrast Lighting ──
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+    scene.add(ambientLight);
+
+    const redKeyLight = new THREE.PointLight(0xff1e1e, 15, 30);
+    redKeyLight.position.set(5, 5, 5);
+    scene.add(redKeyLight);
+
+    const blueFillLight = new THREE.PointLight(0x4444ff, 5, 20);
+    blueFillLight.position.set(-5, 2, 2);
+    scene.add(blueFillLight);
+
+    // ── Anatomical Model Group ──
+    const body = new THREE.Group();
+    const skinMat = new THREE.MeshStandardMaterial({ 
+        color: 0x080808, 
+        metalness: 0.8, 
+        roughness: 0.3 
+    });
+
+    const addPart = (geo: THREE.BufferGeometry, pos: [number, number, number], rot: [number, number, number] = [0,0,0]) => {
+      const mesh = new THREE.Mesh(geo, skinMat);
+      mesh.position.set(...pos);
+      mesh.rotation.set(...rot);
+      body.add(mesh);
+    };
+
+    // 1. Torso & Abs (Tapered)
+    addPart(new THREE.CylinderGeometry(1.2, 0.6, 2.5, 32), [0, 2.5, 0]);
+    // 2. Lats (Back Width)
+    addPart(new THREE.SphereGeometry(1, 32, 16), [0, 3.2, -0.2], [0, 0, 0]);
+    // 3. Pectorals (Chest)
+    addPart(new THREE.CapsuleGeometry(0.5, 0.7, 4, 16), [0.45, 3.5, 0.5], [0, 0, Math.PI/2]);
+    addPart(new THREE.CapsuleGeometry(0.5, 0.7, 4, 16), [-0.45, 3.5, 0.5], [0, 0, Math.PI/2]);
+    // 4. Shoulders (Cannonball Delts)
+    addPart(new THREE.SphereGeometry(0.65, 32, 32), [1.4, 3.8, 0]);
+    addPart(new THREE.SphereGeometry(0.65, 32, 32), [-1.4, 3.8, 0]);
+    // 5. Biceps (Flexed Pose)
+    addPart(new THREE.CapsuleGeometry(0.35, 0.8, 4, 16), [2.0, 4.2, 0.3], [0, 0, Math.PI/3]);
+    addPart(new THREE.CapsuleGeometry(0.35, 0.8, 4, 16), [-2.0, 4.2, 0.3], [0, 0, -Math.PI/3]);
+    // 6. Forearms
+    addPart(new THREE.CapsuleGeometry(0.25, 0.8, 4, 16), [2.4, 5.0, 0.8], [0, 0, 0.2]);
+    addPart(new THREE.CapsuleGeometry(0.25, 0.8, 4, 16), [-2.4, 5.0, 0.8], [0, 0, -0.2]);
+    // 7. Head & Neck
+    addPart(new THREE.CylinderGeometry(0.3, 0.4, 0.6, 16), [0, 4, 0]); // Neck
+    addPart(new THREE.SphereGeometry(0.45, 32, 32), [0, 4.6, 0]); // Head
+    // 8. Legs (Quads)
+    addPart(new THREE.CapsuleGeometry(0.6, 1.5, 4, 16), [0.5, 1, 0], [0, 0, 0.1]);
+    addPart(new THREE.CapsuleGeometry(0.6, 1.5, 4, 16), [-0.5, 1, 0], [0, 0, -0.1]);
+
+    body.position.y = -3;
+    scene.add(body);
+
+    const onScroll = () => { scrollRef.current = window.scrollY; };
+    window.addEventListener("scroll", onScroll);
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      const t = Date.now() * 0.001;
+      const scroll = scrollRef.current;
+
+      body.rotation.y = Math.sin(t * 0.3) * 0.2;
+      const breathe = 1 + Math.sin(t * 1.5) * 0.015;
+      body.scale.set(breathe, breathe, breathe);
+
+      body.position.z = scroll * 0.005;
+      camera.position.y = 2 - scroll * 0.003;
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      renderer.dispose();
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} style={{ position: "fixed", top: 0, left: 0, zIndex: 0, pointerEvents: "none" }} />;
+}
+
+// ─── Services Page ───────────────────────────────────────────────────────────
 export default function ServicesPage() {
-  const APPOINTMENT_LINK = "#contact";
-
-  // Categorized services based on NUMRA's exclusive offerings
-  const serviceCategories = [
-    {
-      category: "Makeup Artistry",
-      tagline: "Enhancing unique features with perfect harmony.",
-      image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200",
-      services: [
-        { name: "Bridal Signature", detail: "Luxury bridal transformation with great panache." },
-        { name: "Party & Occasion", detail: "Relevant to the occasion, from soft glam to bold." },
-        { name: "Editorial & Head-shots", detail: "Precision makeup for high-definition photography." },
-        { name: "Private Lessons", detail: "One-on-one masterclasses for individual styling." }
-      ]
-    },
-    {
-      category: "Hair Design",
-      tagline: "Defining individuality through technical excellence.",
-      image: "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=1200",
-      services: [
-        { name: "Cuts & Styling", detail: "Bespoke cuts and professional blow-drys." },
-        { name: "Couture Colour", detail: "Expert colorists creating perfect tones." },
-        { name: "Luxury Treatments", detail: "Deep conditioning and restorative hair health." },
-        { name: "Special Styling", detail: "Up-dos and elegant styling for events." }
-      ]
-    },
-    {
-      category: "Skin & Beauty",
-      tagline: "Meticulous care for a radiant glow.",
-      image: "https://images.unsplash.com/photo-1698681296890-a772cdec87f8?q=80&w=386&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      services: [
-        { name: "Signature Facials", detail: "Customized treatments for radiant, healthy skin." },
-        { name: "Manicure & Pedicure", detail: "Luxury nail care with expert finishing." },
-        { name: "Threading & Waxing", detail: "Precision grooming for facial and body aesthetics." },
-        { name: "Nail Paint Art", detail: "Premium lacquers and artistic application." }
-      ]
-    }
-  ];
-
   return (
-    <main className="min-h-screen bg-white">
-      
-      {/* Editorial Header */}
-      <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6 text-center border-b border-zinc-100">
-        <div className="max-w-4xl mx-auto">
-          <span className="text-rose-800 text-[10px] md:text-xs tracking-[0.5em] font-medium uppercase mb-6 block">
-            The Numra Experience
-          </span>
-          <h1 className="text-5xl md:text-8xl font-serif text-zinc-900 mb-8 italic tracking-tighter">
-            Our Services
-          </h1>
-          <p className="text-zinc-500 font-light leading-relaxed text-lg md:text-xl max-w-2xl mx-auto italic">
-            "Focusing on the most unique features of your face, creating perfect harmony between colour and tone."
-          </p>
-        </div>
-      </section>
+    <div style={{ backgroundColor: "#050505", minHeight: "100vh", overflowX: 'hidden' }}>
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Montserrat:wght@300;400;700;900&display=swap');
 
-      {/* Services Listing - Alternating Editorial Layout */}
-      <section className="py-20 md:py-32 px-6 lg:px-12 max-w-7xl mx-auto">
-        <div className="flex flex-col gap-32 md:gap-48">
+        .page-content {
+          position: relative;
+          z-index: 1;
+          padding: 160px 0 100px;
+        }
+
+        .container {
+          max-width: 1300px;
+          margin: 0 auto;
+          padding: 0 2rem;
+        }
+
+        .header-box {
+          text-align: left;
+          margin-bottom: 6rem;
+          border-left: 4px solid #ff1e1e;
+          padding-left: 2rem;
+        }
+
+        .badge {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          font-size: 0.8rem;
+          letter-spacing: 0.3em;
+          color: #ff1e1e;
+          text-transform: uppercase;
+        }
+
+        .title {
+          font-family: 'Teko', sans-serif;
+          font-size: clamp(4rem, 10vw, 7rem);
+          line-height: 0.9;
+          color: #fff;
+          text-transform: uppercase;
+          margin: 1rem 0;
+        }
+
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 3rem;
+        }
+
+        .service-card {
+          background: rgba(15, 15, 15, 0.8);
+          backdrop-filter: blur(10px);
+          padding: 4rem 2.5rem;
+          border: 1px solid rgba(255,255,255,0.05);
+          position: relative;
+          transition: all 0.4s ease;
+          clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
+        }
+
+        .service-card:hover {
+          border-color: #ff1e1e;
+          transform: translateY(-10px);
+          background: rgba(20, 20, 20, 0.95);
+        }
+
+        .service-card h3 {
+          font-family: 'Teko', sans-serif;
+          font-size: 2.5rem;
+          color: #fff;
+          text-transform: uppercase;
+          margin-bottom: 1rem;
+        }
+
+        .service-card p {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.95rem;
+          color: #aaa;
+          line-height: 1.6;
+          margin-bottom: 2rem;
+        }
+
+        .feature-list {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 3rem 0;
+        }
+
+        .feature-list li {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          color: #eee;
+          margin-bottom: 0.8rem;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .feature-list li::before {
+          content: '✔';
+          color: #ff1e1e;
+          font-weight: bold;
+        }
+
+        .price-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-top: 1px solid rgba(255,255,255,0.1);
+          padding-top: 2rem;
+        }
+
+        .price {
+          font-family: 'Teko', sans-serif;
+          font-size: 1.8rem;
+          color: #ff1e1e;
+        }
+
+        .btn-action {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 900;
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          color: #fff;
+          text-decoration: none;
+          padding: 0.8rem 1.5rem;
+          border: 1px solid #ff1e1e;
+          transition: all 0.3s ease;
+        }
+
+        .service-card:hover .btn-action {
+          background: #ff1e1e;
+          color: #000;
+        }
+
+        @media (max-width: 768px) {
+          .page-content { padding-top: 120px; }
+          .service-card { padding: 3rem 2rem; }
+        }
+      `}</style>
+
+      <Navbar />
+      <RealisticBodybuilder />
+
+      <div className="page-content">
+        <div className="container">
           
-          {serviceCategories.map((cat, index) => (
-            <div 
-              key={index} 
-              className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 lg:gap-24 items-start`}
-            >
-              
-              {/* Category Visual */}
-              <div className="w-full lg:w-5/12">
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-100 shadow-2xl">
-                  <img 
-                    src={cat.image} 
-                    alt={cat.category} 
-                    className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out"
-                  />
-                  <div className="absolute inset-0 border-[15px] border-white/10 m-4"></div>
-                </div>
-              </div>
+          <div className="header-box">
+            <span className="badge">Training Systems</span>
+            <h1 className="title">ELITE <br/>COMMAND</h1>
+          </div>
 
-              {/* Category Details */}
-              <div className="w-full lg:w-7/12 flex flex-col pt-4">
-                <h2 className="text-4xl md:text-6xl font-serif text-zinc-900 mb-4 italic">
-                  {cat.category}
-                </h2>
-                <p className="text-rose-900 text-[11px] tracking-[0.3em] uppercase font-semibold mb-12">
-                  {cat.tagline}
-                </p>
+          <div className="services-grid">
+            {ELITE_SERVICES.map((s) => (
+              <div key={s.id} className="service-card">
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
                 
-                {/* Individual Service Menu */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                  {cat.services.map((item, idx) => (
-                    <div key={idx} className="group border-b border-zinc-100 pb-6">
-                      <h3 className="text-lg font-serif text-zinc-900 mb-2 group-hover:text-rose-800 transition-colors">
-                        {item.name}
-                      </h3>
-                      <p className="text-zinc-500 font-light text-sm leading-relaxed">
-                        {item.detail}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                <ul className="feature-list">
+                  {s.features.map(f => <li key={f}>{f}</li>)}
+                </ul>
 
-                <div className="mt-16">
-                  <a 
-                    href={APPOINTMENT_LINK}
-                    className="inline-flex items-center text-zinc-900 text-[10px] tracking-[0.4em] uppercase font-bold group"
-                  >
-                    Request Consultation
-                    <span className="ml-4 h-[1px] w-12 bg-zinc-900 group-hover:w-20 transition-all duration-500"></span>
-                  </a>
+                <div className="price-row">
+                  <span className="price">{s.price}</span>
+                  <a href="/join" className="btn-action">Join Now</a>
                 </div>
               </div>
-              
-            </div>
-          ))}
+            ))}
+          </div>
 
         </div>
-      </section>
+      </div>
 
-      {/* Luxury Call to Action */}
-      <section className="bg-zinc-950 py-32 px-6 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-serif text-white mb-8 italic">
-            Ready for your bespoke makeover?
-          </h2>
-          <p className="text-zinc-400 font-light mb-12 text-sm md:text-base tracking-wide">
-            Our definitive finishing will give you the individuality you desire and let you stand out from the crowd.
-          </p>
-          <a 
-            href={APPOINTMENT_LINK}
-            className="px-12 py-5 bg-white text-zinc-950 text-[11px] tracking-[0.4em] uppercase font-bold hover:bg-rose-900 hover:text-white transition-all duration-500"
-          >
-            Book Appointment
-          </a>
-        </div>
-      </section>
       
-    </main>
+    </div>
   );
 }

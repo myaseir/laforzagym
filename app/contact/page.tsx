@@ -1,106 +1,117 @@
-import React from 'react';
+"use client";
+
+import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-white pt-20 flex flex-col">
-      
-      {/* Editorial Header */}
-      <section className="bg-zinc-950 text-zinc-200 py-32 px-4 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none"></div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <span className="text-rose-800 text-[10px] md:text-xs tracking-[0.5em] font-bold uppercase mb-6 block">
-            Reservations
-          </span>
-          <h1 className="text-5xl md:text-7xl font-serif text-white mb-8 italic tracking-tighter">
-            Book an Appointment
-          </h1>
-          <p className="max-w-2xl mx-auto font-light leading-relaxed text-zinc-400 text-lg md:text-xl italic">
-            "Fulfilling your beauty needs with great panache. Stand out from the crowd with our definitive finishing."
-          </p>
-        </div>
-      </section>
+    <main className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <Navbar />
 
-      {/* Contact & Booking Content */}
-      <section className="py-24 px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+      {/* ─── Fixed Background ─── */}
+      <div className="fixed inset-0 z-0">
+        <img 
+          src="/gym.png" 
+          alt="Gym Background" 
+          className="w-full h-full object-cover object-center opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-tr from-black via-black/40 to-red-900/20" />
+      </div>
+
+      {/* ─── Content Layer ─── */}
+      <div className="relative z-10 pt-26 md:pt-26 pb-20">
+        <div className="container mx-auto px-6">
           
-          {/* Studio Information */}
-          <div className="flex flex-col items-start pt-4">
-            <h2 className="text-4xl font-serif text-zinc-900 mb-10 italic">Studio Details</h2>
-            
-            <div className="mb-12 border-l-2 border-rose-900/30 pl-8 py-2">
-              <h4 className="text-rose-900 text-[10px] tracking-[0.3em] font-bold uppercase mb-4">Location</h4>
-              <p className="text-zinc-600 font-light text-lg leading-relaxed">
-                NUMRA - Makeup Studio & Salon<br />
-                Gulberg III, Lahore<br />
-                Pakistan
-              </p>
-            </div>
-
-            <div className="mb-12 border-l-2 border-rose-900/30 pl-8 py-2">
-              <h4 className="text-rose-900 text-[10px] tracking-[0.3em] font-bold uppercase mb-4">Direct Enquiries</h4>
-              <p className="text-zinc-600 font-light text-lg mb-2">
-                <a href="mailto:appointments@numra.pk" className="hover:text-rose-800 transition-colors">appointments@numra.pk</a>
-              </p>
-              <p className="text-zinc-600 font-light text-lg">
-                <a href="tel:+92420000000" className="hover:text-rose-800 transition-colors">+92 42 000 0000</a>
-              </p>
-            </div>
-
-            <div className="mt-auto">
-              <p className="text-[10px] tracking-widest uppercase text-zinc-400">
-                Digital Architecture by <span className="text-zinc-900 font-bold">Glacia Labs</span>
-              </p>
-            </div>
+          <div className="max-w-4xl mb-16">
+            <span className="text-red-600 font-black tracking-[0.4em] text-xs uppercase mb-4 block">
+              Join the Ranks
+            </span>
+            <h1 className="font-['Teko'] text-7xl md:text-9xl uppercase leading-none">
+              Contact <span className="text-transparent" style={{ WebkitTextStroke: "1px #ff1e1e" }}>HQ</span>
+            </h1>
           </div>
 
-          {/* Luxury Appointment Form */}
-          <div className="bg-zinc-50 p-8 md:p-12 shadow-2xl border border-zinc-100 relative">
-            {/* Subtle decorative accent */}
-            <div className="absolute top-0 right-0 w-24 h-24 bg-rose-900/5 -z-0"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             
-            <h3 className="text-2xl font-serif text-zinc-900 mb-8 italic relative z-10">Inquiry Form</h3>
-            <form className="flex flex-col gap-8 relative z-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-[10px] tracking-[0.2em] text-zinc-500 uppercase font-bold">Full Name</label>
-                  <input type="text" id="name" className="border-b border-zinc-300 py-3 focus:outline-none focus:border-rose-800 transition-colors bg-transparent text-zinc-900 text-sm font-light" placeholder="E.g. Maria Khan" required />
+            {/* ── Contact Form ── */}
+            <div className="bg-zinc-900/50 backdrop-blur-xl p-8 md:p-12 border border-white/5">
+              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold">Full Name</label>
+                    <input type="text" placeholder="GUEST_NAME" className="w-full bg-black/40 border border-zinc-800 p-4 text-sm focus:border-red-600 outline-none transition-all" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold">Email Address</label>
+                    <input type="email" placeholder="EMAIL@GLACIALABS.COM" className="w-full bg-black/40 border border-zinc-800 p-4 text-sm focus:border-red-600 outline-none transition-all" />
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="phone" className="text-[10px] tracking-[0.2em] text-zinc-500 uppercase font-bold">Phone Number</label>
-                  <input type="tel" id="phone" className="border-b border-zinc-300 py-3 focus:outline-none focus:border-rose-800 transition-colors bg-transparent text-zinc-900 text-sm font-light" placeholder="+92 --- -------" required />
+
+                <div className="space-y-2">
+                  <label className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold">Interest</label>
+                  <select className="w-full bg-black/40 border border-zinc-800 p-4 text-sm focus:border-red-600 outline-none transition-all appearance-none">
+                    <option>Membership Inquiry</option>
+                    <option>Personal Training</option>
+                    <option>Corporate Partnership</option>
+                    <option>General Intel</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] tracking-widest uppercase text-zinc-500 font-bold">Message</label>
+                  <textarea rows={4} placeholder="TRANSMIT YOUR MESSAGE..." className="w-full bg-black/40 border border-zinc-800 p-4 text-sm focus:border-red-600 outline-none transition-all"></textarea>
+                </div>
+
+                <button className="w-full bg-red-600 hover:bg-white hover:text-black text-black font-black py-5 tracking-[0.3em] uppercase text-xs transition-all duration-500">
+                  Send Transmission
+                </button>
+              </form>
+            </div>
+
+            {/* ── HQ Details ── */}
+            <div className="space-y-12 lg:pl-12">
+              <div className="space-y-4">
+                <h3 className="font-['Teko'] text-4xl uppercase text-red-600">Location</h3>
+                <p className="font-['Montserrat'] text-zinc-400 leading-relaxed uppercase tracking-tighter">
+                  Sector F Winterland, Bahria Lahore,<br />
+                  Punjab, Pakistan
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-['Teko'] text-4xl uppercase text-red-600">Connect</h3>
+                <p className="font-['Montserrat'] text-zinc-400 space-y-2">
+                  <span className="block tracking-widest">TEL: +92 51 000 0000</span>
+                  <span className="block tracking-widest">EMAIL: HQ@LAFORZA.PK</span>
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-['Teko'] text-4xl uppercase text-red-600">Hours</h3>
+                <div className="grid grid-cols-2 gap-4 text-[10px] tracking-widest uppercase text-zinc-500 font-bold">
+                  <div>Mon - Sat</div>
+                  <div className="text-white text-right">05:00 - 23:00</div>
+                  <div>Sunday</div>
+                  <div className="text-white text-right">09:00 - 18:00</div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label htmlFor="service" className="text-[10px] tracking-[0.2em] text-zinc-500 uppercase font-bold">Desired Service</label>
-                <select id="service" className="border-b border-zinc-300 py-3 focus:outline-none focus:border-rose-800 transition-colors bg-transparent text-zinc-900 text-sm font-light appearance-none">
-                  <option>Bridal Makeup Signature</option>
-                  <option>Party / Special Occasion</option>
-                  <option>Editorial / Head-shot</option>
-                  <option>Technical Hair Treatment</option>
-                  <option>Luxury Skin Service</option>
-                  <option>Private Lessons</option>
-                </select>
+              {/* Decorative Accent */}
+              <div className="pt-8 opacity-20 hidden md:block">
+                <img src="/gym.png" className="w-full h-32 object-cover grayscale brightness-50" />
               </div>
+            </div>
 
-              <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-[10px] tracking-[0.2em] text-zinc-500 uppercase font-bold">Additional Details</label>
-                <textarea id="message" rows={3} className="border-b border-zinc-300 py-3 focus:outline-none focus:border-rose-800 transition-colors bg-transparent text-zinc-900 text-sm font-light resize-none" placeholder="Preferred dates or specific requirements..."></textarea>
-              </div>
-
-              <button 
-                type="button" 
-                className="mt-6 px-12 py-5 bg-zinc-950 hover:bg-rose-900 text-white text-[11px] tracking-[0.4em] uppercase font-bold transition-all duration-500 shadow-xl"
-              >
-                Request Appointment
-              </button>
-            </form>
           </div>
-
         </div>
-      </section>
+      </div>
+
+      
+
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Montserrat:wght@300;400;700;900&display=swap');
+      `}</style>
     </main>
   );
 }

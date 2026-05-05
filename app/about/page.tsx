@@ -1,81 +1,92 @@
-import Link from "next/link";
+"use client";
+
+import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white pt-20">
-      {/* Editorial Header */}
-      <section className="bg-zinc-950 text-zinc-200 py-32 px-4 text-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] pointer-events-none"></div>
+    <main className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <Navbar />
+
+      {/* ─── Fixed Background Image ─── */}
+      <div className="fixed inset-0 z-0">
+        {/* The Image */}
+        <img 
+          src="/gym.png" 
+          alt="Gym Background" 
+          className="w-full h-full object-cover object-center opacity-100"
+        />
+        {/* Gradient Overlay for Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/20 to-black" />
+      </div>
+
+      {/* ─── Content Layer ─── */}
+      <div className="relative z-10">
         
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <span className="text-rose-800 text-[10px] md:text-xs tracking-[0.5em] font-bold uppercase mb-6 block">
-            Our Story
-          </span>
-          <h1 className="text-5xl md:text-7xl font-serif text-white mb-8 italic tracking-tighter">
-            Defined by Panache
-          </h1>
-          <p className="max-w-2xl mx-auto font-light leading-relaxed text-zinc-400 text-lg md:text-xl italic">
-            Discover the artistry behind Lahore's premier luxury bridal and beauty sanctuary.
-          </p>
-        </div>
-      </section>
-
-      {/* Content Section */}
-      <section className="py-24 px-6 sm:px-8 lg:px-12 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          
-          {/* High-Reliability Editorial Image */}
-          <div className="relative h-[500px] md:h-[700px] w-full overflow-hidden shadow-2xl group bg-zinc-100">
-            <img 
-              src="https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=1000" 
-              alt="Luxury Beauty Artistry" 
-              className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 ease-in-out"
-            />
-            <div className="absolute inset-0 border-[20px] border-white/5 m-6"></div>
-          </div>
-
-          {/* Brand Narrative */}
-          <div className="flex flex-col items-start">
-            <h4 className="text-rose-900 text-[11px] tracking-[0.3em] uppercase font-bold mb-4">
-              The Numra Philosophy
-            </h4>
-            <h2 className="text-4xl md:text-5xl font-serif text-zinc-900 mb-8 italic leading-tight">
-              Harmony, Tone & <br/> Individual Beauty
-            </h2>
+        {/* Hero Section */}
+        <section className="container mx-auto px-6 pt-48 md:pt-64 pb-20">
+          <div className="max-w-4xl">
+            <span className="inline-block text-red-600 font-bold tracking-[0.4em] text-xs md:text-sm uppercase mb-6">
+              The Iron Standard
+            </span>
             
-            <div className="space-y-6 text-zinc-600 font-light text-lg leading-relaxed">
-              <p>
-                NUMRA is an exclusive sanctuary where we focus on enhancing the most unique features of your face. We believe beauty is found in the perfect harmony between color and tone, kept relevant to your most special occasions.
-              </p>
-              <p>
-                We pay close attention to our clients’ needs, fulfilling them with great panache. From the precision of our bridal services to the technical excellence of our hair treatments, our definitive finishing ensures you stand out from the crowd with the individuality you desire.
-              </p>
-            </div>
+            <h1 className="font-['Teko'] text-7xl md:text-[10rem] leading-[0.85] uppercase mb-12">
+              Forge <br />
+              <span className="text-transparent" style={{ WebkitTextStroke: "1px #ff1e1e" }}>Your</span> <br />
+              Legacy
+            </h1>
 
-            <div className="mt-12 flex flex-col sm:flex-row gap-6 items-center">
-              <Link 
-                href="/bridal" 
-                className="px-10 py-4 bg-zinc-900 hover:bg-rose-900 text-white text-[11px] tracking-[0.3em] uppercase font-bold transition-all duration-500 shadow-xl"
-              >
-                Explore Portfolio
-              </Link>
-              <span className="text-[9px] tracking-widest uppercase text-zinc-400">
-                Digital Experience by <span className="text-zinc-900 font-bold">Glacia Labs</span>
-              </span>
+            {/* Premium Description Card */}
+            <div className="bg-zinc-900/60 backdrop-blur-xl border-l-4 border-red-600 p-8 md:p-12 max-w-xl shadow-2xl">
+              <p className="font-['Montserrat'] text-lg md:text-xl text-zinc-300 font-light leading-relaxed">
+                IronCore was established in Rawalpindi with a singular mission: to provide an elite haven 
+                for those who treat training as a discipline, not a hobby.
+              </p>
+              <div className="mt-8 flex items-center gap-4">
+                <div className="h-[1px] w-12 bg-red-600"></div>
+                <span className="text-[10px] tracking-[0.3em] text-red-600 font-bold uppercase">Rawalpindi, PK</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Signature Quote */}
-      <section className="bg-zinc-50 py-24 px-6 text-center">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-2xl md:text-3xl font-serif italic text-zinc-900 leading-relaxed mb-6">
-            "Our definitive finishing will give you the individuality you desire and let you stand out from the crowd."
-          </p>
-          <span className="text-[10px] tracking-[0.4em] uppercase text-rose-900 font-bold">The Numra Promise</span>
-        </div>
-      </section>
+        {/* Tactical Info Section */}
+        <section className="container mx-auto px-6 py-32">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="font-['Teko'] text-5xl uppercase leading-none">
+                Tactical <span className="text-red-600">Infrastructure</span>
+              </h2>
+              <p className="text-zinc-400 font-light leading-loose text-lg">
+                Our facility spans elite lifting zones, tactical conditioning spaces, 
+                and premium recovery suites. We stripped away the commercial fluff 
+                to leave only the essentials for peak human performance.
+              </p>
+              <button className="border border-white/20 hover:border-red-600 hover:text-red-600 px-10 py-4 text-[10px] font-black tracking-widest uppercase transition-all duration-300">
+                View Facility
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-zinc-900/40 backdrop-blur-md p-10 border border-white/5 text-center">
+                <div className="text-red-600 font-['Teko'] text-5xl mb-1">24/7</div>
+                <div className="text-[9px] tracking-[0.3em] text-zinc-500 uppercase">Access</div>
+              </div>
+              <div className="bg-zinc-900/40 backdrop-blur-md p-10 border border-white/5 text-center">
+                <div className="text-red-600 font-['Teko'] text-5xl mb-1">150+</div>
+                <div className="text-[9px] tracking-[0.3em] text-zinc-500 uppercase">Machines</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      
+      </div>
+
+      <style jsx global>{`
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Montserrat:wght@300;400;700;900&display=swap');
+      `}</style>
     </main>
   );
 }
